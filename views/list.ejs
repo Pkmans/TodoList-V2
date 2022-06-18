@@ -1,0 +1,45 @@
+<%- include("header"); -%>
+
+    <div class="box">
+
+        <h1 contenteditable="true">TODAY'S TASKS 📝</h1>
+
+        
+
+        <h3> Todo (<%= todoList.length %>)</h3>
+        <ul>
+            <% todoList.forEach(item=> { %>
+                <form class="item" action="/checked" method="post">
+                    <input type="checkbox" onClick="this.form.submit()">
+                    <p>
+                        <%= item %>
+                    </p>
+                    <input type="hidden" name="item" value="<%= item %>">
+                </form>
+                <% }) %>
+        </ul>
+
+        <h3 class="completed-title"> Completed (<%= completedList.length %>)</h3>
+        <form class="clear-form" action="/clearItems" method="post">
+            <button class="clearButton" type="submit"><i class="fa-solid fa-trash"></i></button>
+        </form>
+        <ul>
+            <% completedList.forEach(item=> { %>
+                <form class="item" action="/unchecked" method="post">
+                    <input type="checkbox" checked onClick="this.form.submit()">
+                    <p>
+                        <%= item %>
+                    </p>
+                    <input type="hidden" name="item" value="<%= item %>">
+                </form>
+                <% }) %>
+        </ul>
+
+        <form action="/" method="post">
+            <input type="text" name="newItem" id=""  placeholder="Add item">
+            <button class="addButton" type="submit">+</button>
+        </form>
+        
+    </div>
+
+    <%- include("footer"); -%>

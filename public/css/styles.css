@@ -1,0 +1,116 @@
+html {
+    background-color: #E4E9FD;
+    font-family: Helvetica, sans-serif;
+    background-image: url("https://www.transparenttextures.com/patterns/black-thread-light.png");
+
+}
+
+ul {
+    padding-inline-start: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+.box {
+    background: rgb(255, 255, 255);
+    background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
+    border-radius: 30px;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    margin: 8rem auto;
+    padding: 1rem 2rem;
+    position: relative;
+}
+
+.item {
+    display: flex;
+}
+
+p {
+    margin: 0;
+    padding: 10px;
+    font-size: 1.05rem;
+    font-weight: 200;
+    color: #00204a;
+  }
+
+input[type="checkbox"] {
+    margin: auto 1.3rem auto 0;
+}
+
+input:checked+p {
+    text-decoration: line-through;
+    text-decoration-color: #200550;
+}
+
+.addButton {
+    min-height: 30px;
+    width: 50px;
+    border-radius: 20%;
+    border-color: transparent;
+    background-color: #200550;
+    color: #fff;
+    font-size: 30px;
+    border-width: 0;
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.addButton:hover {
+    background-color: #330483;
+}
+
+.clearButton {
+    min-height: 30px;
+    border-radius: 10px;
+    border-color: transparent;
+    background-color: #7651b8;
+    color: #fff;
+    font-size: 0.9rem;
+    border-width: 0;
+    padding: 0 0.8rem;
+}
+
+.clearButton:hover {
+    background-color: #4c268b;
+
+}
+
+.clear-form {
+    display: inline-block;
+}
+
+.completed-title {
+    display: inline-block;
+}
+
+
+input[type="text"] {
+    text-align: center;
+    height: 40px;
+    top: 10px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 200;
+    width: 313px;
+}
+
+form {
+    text-align: center;
+    margin-left: 20px;
+}
+
+::placeholder {
+    color: grey;
+    opacity: 1;
+  }
+
+footer {
+    color: white;
+    color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
