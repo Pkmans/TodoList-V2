@@ -1,11 +1,10 @@
 <%- include("header"); -%>
 
     <div class="box">
-
         <h1 contenteditable="true">TODAY'S TASKS 📝</h1>
 
-        
 
+        <!-- Render TodoList  -->
         <h3> Todo (<%= todoList.length %>)</h3>
         <ul>
             <% todoList.forEach(item=> { %>
@@ -19,8 +18,9 @@
                 <% }) %>
         </ul>
 
+        <!-- Render CompletedList -->
         <h3 class="completed-title"> Completed (<%= completedList.length %>)</h3>
-        <form class="clear-form" action="/clearItems" method="post">
+        <form class="clear-button-parent" action="/clearItems" method="post">
             <button class="clearButton" type="submit"><i class="fa-solid fa-trash"></i></button>
         </form>
         <ul>
@@ -35,6 +35,7 @@
                 <% }) %>
         </ul>
 
+        <!-- Add Items Section -->
         <form action="/" method="post">
             <input type="text" name="newItem" id=""  placeholder="Add item">
             <button class="addButton" type="submit">+</button>

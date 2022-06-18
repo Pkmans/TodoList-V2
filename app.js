@@ -9,7 +9,7 @@ const completedList = [];
 
 const app = express();
 
-// dirname stuff
+//_dirname stuff
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -38,10 +38,9 @@ app.post("/", (req, res) => {
 app.post("/checked", (req, res) => {
     const checkedItem = req.body.item;
 
+    
     completedList.push(checkedItem);
-
-    //moves checkedItem to end of array and pops it out
-    todoList.push(todoList.splice(todoList.findIndex(item => item === checkedItem), 1)[0]);
+    todoList.push(todoList.splice(todoList.findIndex(item => item === checkedItem), 1)[0]); //moves checkedItem to end of array and pops it out
     todoList.pop();
 
     res.redirect("/");
@@ -50,10 +49,9 @@ app.post("/checked", (req, res) => {
 app.post("/unchecked", (req, res) => {
     const uncheckedItem = req.body.item;
 
+    // Moves item from todoList to CompletedList
     todoList.push(uncheckedItem);
-
-    //moves uncheckedItem to end of array and pops it out
-    completedList.push(completedList.splice(completedList.findIndex(item => item === uncheckedItem), 1)[0]);
+    completedList.push(completedList.splice(completedList.findIndex(item => item === uncheckedItem), 1)[0]); //moves uncheckedItem to end of array and pops it out
     completedList.pop();
 
     res.redirect("/");
