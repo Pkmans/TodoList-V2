@@ -1,5 +1,7 @@
-# TodoList-v1
-Made using HTML, CSS, Javascript, EJS, Node, and Express.
+# TodoList-v2
+Made using:
+Front-End - HTML, CSS, Javascript, EJS, Node, and Express.
+Back-End - MongoDB, Mongoose, MongoAtlas, Heroku
 
-Front-end only. No databases implemented.
+
 

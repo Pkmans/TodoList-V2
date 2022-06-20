@@ -3,8 +3,9 @@ import bodyParser from "body-parser";
 import favicon from "serve-favicon";
 import path from "path";
 import { fileURLToPath } from 'url';
+import mongoose from "mongoose";
 
-const todoList = ["Welcome to my Todo List App!", "Add new items at the bottom", "<< Click here to check off items"];
+// const todoList = ["Welcome to my Todo List App!", "Add new items at the bottom", "<< Click here to check off items"];
 const completedList = [];
 
 const app = express();
@@ -13,53 +14,111 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.set('view engine', 'ejs');
 
+main().catch(err => console.log(err));
+
+async function main() {
+    await mongoose.connect('mongodb://localhost:27017/todolistDB');
+}
+
+const itemSchema = new mongoose.Schema({
+    name: String
+})
+
+const completedItemSchema = new mongoose.Schema({
+    name: String
+})
+
+const Item = mongoose.model('Item', itemSchema);
+
+const CompletedItem = mongoose.model("CompletedItem", completedItemSchema);
+
+const item1 = new Item({ name: "Welcome to my Todo List App!" });
+const item2 = new Item({ name: "Add new items at the bottom" });
+const item3 = new Item({ name: "<< Click here to check off items" });
+
+const defaultItems = [item1, item2, item3];
+
 app.get("/", (req, res) => {
-    
-    res.render("list", {todoList: todoList, completedList: completedList});
+
+    let todoList = [];
+    let completedList = [];
+
+    CompletedItem.find({}, (err, itemsFound) => {
+        completedList = itemsFound;
+    })
+
+    // Add default items if TodoList is empty
+    Item.find({}, (err, itemsFound) => {
+        if (itemsFound.length === 0) {
+            Item.insertMany(defaultItems, (err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Default items saved");
+                }
+            });
+            res.redirect("/");
+        } else {
+            todoList = itemsFound;
+
+            res.render("list", { todoList: todoList, completedList: completedList });
+        }
+    });
+
 })
 
 app.post("/", (req, res) => {
-    const newItem = req.body.newItem;
-    const emptyInput = newItem.trim().length === 0;
+    console.log(req.body.newItem);
+
+    const newItem = new Item({ name: req.body.newItem });
+    const emptyInput = newItem.name.trim().length === 0;
 
     if (!emptyInput) {
-        todoList.push(newItem);
+        newItem.save();
     }
 
     res.redirect("/");
 })
 
 app.post("/checked", (req, res) => {
-    const checkedItem = req.body.item;
+    const checkedItem = new CompletedItem({ name: req.body.item });
 
-    
-    completedList.push(checkedItem);
-    todoList.push(todoList.splice(todoList.findIndex(item => item === checkedItem), 1)[0]); //moves checkedItem to end of array and pops it out
-    todoList.pop();
+    checkedItem.save();
+    Item.deleteOne({name: req.body.item}, (err) => {
+        if (err) {
+            console.log(err);
+        } 
+    });
 
     res.redirect("/");
 })
 
 app.post("/unchecked", (req, res) => {
-    const uncheckedItem = req.body.item;
+    const uncheckedItem = new Item({name: req.body.item});
 
-    // Moves item from todoList to CompletedList
-    todoList.push(uncheckedItem);
-    completedList.push(completedList.splice(completedList.findIndex(item => item === uncheckedItem), 1)[0]); //moves uncheckedItem to end of array and pops it out
-    completedList.pop();
+    uncheckedItem.save()
+    CompletedItem.deleteOne({name: req.body.item}, (err) => {
+        if (err) {
+            console.log(err);
+        } 
+    })
 
     res.redirect("/");
 })
 
 app.post("/clearItems", (req, res) => {
-    completedList.length = 0; // chose this over completedList = [] in order to keep array as a constant;
-    
+    CompletedItem.deleteMany({}, (err) => {
+        if (err) {
+            console.log(err);
+        } 
+    })
+
     res.redirect("/");
 })
 

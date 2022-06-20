@@ -11,9 +11,9 @@
                 <form class="item" action="/checked" method="post">
                     <input type="checkbox" onClick="this.form.submit()">
                     <p>
-                        <%= item %>
+                        <%= item.name %>
                     </p>
-                    <input type="hidden" name="item" value="<%= item %>">
+                    <input type="hidden" name="item" value="<%= item.name %>">
                 </form>
                 <% }) %>
         </ul>
@@ -28,9 +28,9 @@
                 <form class="item" action="/unchecked" method="post">
                     <input type="checkbox" checked onClick="this.form.submit()">
                     <p>
-                        <%= item %>
+                        <%= item.name %>
                     </p>
-                    <input type="hidden" name="item" value="<%= item %>">
+                    <input type="hidden" name="item" value="<%= item.name %>">
                 </form>
                 <% }) %>
         </ul>
