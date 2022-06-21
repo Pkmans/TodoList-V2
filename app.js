@@ -45,17 +45,12 @@ const item3 = new Item({ name: "<< Click here to check off items" });
 const defaultItems = [item1, item2, item3];
 
 app.get("/", (req, res) => {
-
-    let todoList = [];
-    let completedList = [];
-
-    CompletedItem.find({}, (err, itemsFound) => {
-        completedList = itemsFound;
-    })
+    // Note: For more complicated scenarios, async control flow library 
+    //       would help instead of nested callbacks.
 
     // Add default items if TodoList is empty
-    Item.find({}, (err, itemsFound) => {
-        if (itemsFound.length === 0) {
+    Item.find({}, (err, todoItemsFound) => {
+        if (todoItemsFound.length === 0) {
             Item.insertMany(defaultItems, (err) => {
                 if (err) {
                     console.log(err);
@@ -65,9 +60,9 @@ app.get("/", (req, res) => {
             });
             res.redirect("/");
         } else {
-            todoList = itemsFound;
-
-            res.render("list", { todoList: todoList, completedList: completedList });
+            CompletedItem.find({}, (err, completedItemsFound) => {
+                res.render("list", { todoList: todoItemsFound, completedList: completedItemsFound });
+            })
         }
     });
 
