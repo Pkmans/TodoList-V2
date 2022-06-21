@@ -17,5 +17,8 @@
     "mongodb": "^4.7.0",
     "mongoose": "^6.4.0",
     "serve-favicon": "^2.5.0"
+  },
+  "engines": {
+    "node": "16.15.1"
   }
 }
