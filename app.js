@@ -23,7 +23,7 @@ app.set('view engine', 'ejs');
 main().catch(err => console.log(err));
 
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/todolistDB');
+    await mongoose.connect('mongodb+srv://admin-aaron:DRVzW5bhN6UbN87q@cluster0.vjl4y.mongodb.net/todolistDB');
 }
 
 const itemSchema = new mongoose.Schema({
